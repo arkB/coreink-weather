@@ -23,6 +23,9 @@ const char* region = "東京地方";
 
 DynamicJsonDocument* weatherInfo = nullptr;
 
+// ディープスリープ間隔（秒）：1時間ごとに起動して天気を更新
+const int SLEEP_INTERVAL_SEC = 3600;
+
 // WiFi設定（自分の環境に合わせて変更してください）
 const char* WIFI_SSID = "YOUR_WIFI_SSID";
 const char* WIFI_PASS = "YOUR_WIFI_PASSWORD";
@@ -122,29 +125,18 @@ void setup() {
         Serial.println("WiFi connection FAILED!");
         showStatus("WiFi Error", "Check SSID/Pass");
     }
+
+    // 描画後にディープスリープへ移行（次回起動時にsetup()から再実行される）
+    Serial.printf("Going to deep sleep for %d seconds...\n", SLEEP_INTERVAL_SEC);
+    Serial.flush();
+    M5.shutdown(SLEEP_INTERVAL_SEC);
 }
  
 void loop() {
-    delay(1);
-    if (M5.BtnUP.wasPressed()) {
-        Serial.println("Button UP pressed");
-        drawTodayWeather(); 
-    }
-    if (M5.BtnMID.wasPressed()) {
-        Serial.println("Button MID pressed");
-        drawTomorrowWeather();
-    }
-    if (M5.BtnDOWN.wasPressed()) {
-        Serial.println("Button DOWN pressed");
-        drawDayAfterTomorrowWeather();
-    }
-    if( M5.BtnPWR.wasPressed())
-    {
-        Serial.printf("Btn %d was pressed \r\n",BUTTON_EXT_PIN);
-        digitalWrite(LED_EXT_PIN,LOW);
-        M5.shutdown();
-    }
-    M5.update();
+    // M5.shutdown() が失敗した場合のフォールバック
+    // （USB接続中はshutdownが効かないため）
+    delay(SLEEP_INTERVAL_SEC * 1000UL);
+    ESP.restart();
 }
 
 bool fetchWeatherJson() {
