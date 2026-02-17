@@ -276,21 +276,27 @@ void drawWeather(JsonObject doc) {
     
     String weatherStr = String(weather);
     
-    if (weatherStr.indexOf("雨") != -1) {
-        if (weatherStr.indexOf("くもり") != -1) {
+    // APIが漢字「曇」とひらがな「くもり」の両方を返す可能性があるため両方チェック
+    bool hasRain  = weatherStr.indexOf("雨") != -1;
+    bool hasSun   = weatherStr.indexOf("晴") != -1;
+    bool hasSnow  = weatherStr.indexOf("雪") != -1;
+    bool hasCloud = weatherStr.indexOf("くもり") != -1 || weatherStr.indexOf("曇") != -1;
+
+    if (hasRain) {
+        if (hasCloud) {
             weatherSprite.drawBuff(46,36,108,96,rainyandcloudy);
         } else {
             weatherSprite.drawBuff(46,36,108,96,rainy);
         }
-    } else if (weatherStr.indexOf("晴") != -1) {
-        if (weatherStr.indexOf("くもり") != -1) {
+    } else if (hasSun) {
+        if (hasCloud) {
             weatherSprite.drawBuff(46,36,108,96,sunnyandcloudy);
         } else {
             weatherSprite.drawBuff(46,36,108,96,sunny);
         }
-    } else if (weatherStr.indexOf("雪") != -1) {
+    } else if (hasSnow) {
             weatherSprite.drawBuff(46,36,108,96,snow);
-    } else if (weatherStr.indexOf("くもり") != -1) {
+    } else if (hasCloud) {
             weatherSprite.drawBuff(46,36,108,96,cloudy);
     }
     weatherSprite.pushSprite();
