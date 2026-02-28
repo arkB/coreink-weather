@@ -56,7 +56,7 @@ void loop() {
     {
         Serial.printf("Btn %d was pressed \r\n",BUTTON_EXT_PIN);
         digitalWrite(LED_EXT_PIN,LOW);
-        M5.PowerDown();
+        M5.shutdown();
     }
     M5.update();
 }
@@ -132,10 +132,10 @@ void drawWeather(String infoWeather) {
    String minTemperature = doc["temperature"]["range"][1]["content"];
    drawTemperature(maxTemperature, minTemperature);
  
-    int rainfallChances[] = {doc["rainfallchance"]["period"][0]["content"].as<String>(), //as<int>()だとなぜか0が返ってくる
-        doc["rainfallchance"]["period"][1]["content"].as<String>(),
-        doc["rainfallchance"]["period"][2]["content"].as<String>(),
-        doc["rainfallchance"]["period"][3]["content"].as<String>()};
+    int rainfallChances[] = {doc["rainfallchance"]["period"][0]["content"].as<int>(),
+        doc["rainfallchance"]["period"][1]["content"].as<int>(),
+        doc["rainfallchance"]["period"][2]["content"].as<int>(),
+        doc["rainfallchance"]["period"][3]["content"].as<int>()};
 
     int maxRainfallChance = -255;
     int minRainfallChance = 255;
