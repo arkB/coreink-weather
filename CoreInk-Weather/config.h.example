@@ -1,0 +1,9 @@
+// WiFi設定ファイル
+// このファイルを config.h にコピーして、自分の環境に合わせて設定してください
+#ifndef CONFIG_H
+#define CONFIG_H
+
+const char* WIFI_SSID = "YOUR_SSID_HERE";
+const char* WIFI_PASS = "YOUR_PASSWORD_HERE";
+
+#endif

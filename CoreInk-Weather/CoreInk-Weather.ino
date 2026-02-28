@@ -4,6 +4,7 @@
 #include <ArduinoJson.h>
 #include "M5CoreInk.h"
 #include "esp_adc_cal.h"
+#include "config.h"
 #include "images/background.c"
 #include "images/cloudy.c"
 #include "images/rainy.c"
@@ -26,9 +27,7 @@ DynamicJsonDocument* weatherInfo = nullptr;
 // ディープスリープ間隔（秒）：1時間ごとに起動して天気を更新
 const int SLEEP_INTERVAL_SEC = 3600;
 
-// WiFi設定（自分の環境に合わせて変更してください）
-const char* WIFI_SSID = "YOUR_WIFI_SSID";
-const char* WIFI_PASS = "YOUR_WIFI_PASSWORD";
+// WiFi設定は config.h で定義してください
 
 // ステータスメッセージ表示用ヘルパー（1〜2行）
 void showStatus(const char* line1, const char* line2 = nullptr) {
