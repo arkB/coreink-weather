@@ -284,9 +284,9 @@ void drawWeather(JsonObject doc) {
 
     if (hasRain) {
         if (hasCloud) {
-            weatherSprite.drawBuff(46,36,108,96,rainyandcloudy);
+            weatherSprite.drawBuff(46,36,112,96,rainyandcloudy);
         } else {
-            weatherSprite.drawBuff(46,36,108,96,rainy);
+            weatherSprite.drawBuff(46,36,112,96,rainy);
         }
     } else if (hasSun) {
         if (hasCloud) {
