@@ -1,8 +1,12 @@
 # CoreInk-Weather
 
-![写真](images/eyecatch.jpg)
+![写真](CoreInk-Weather/images/eyecatch.jpg)
 
 M5Stack CoreInkで天気が表示できます。
+
+## Wi-Fi設定
+
+`CoreInk-Weather/secrets.example.h` を `CoreInk-Weather/secrets.h` としてコピーし、SSIDとパスワードを設定してください。`secrets.h` はGitの追跡対象外です。
 
 developブランチでは予定していたほぼ全ての機能が完成していますが、  
 [m5stack/M5-CoreInk](https://github.com/m5stack/M5-CoreInk)から最新のCoreInkライブラリを入手する必要があります。  

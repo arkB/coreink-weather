@@ -3,6 +3,7 @@
 #include <ArduinoJson.h>
 #include "M5CoreInk.h"
 #include "esp_adc_cal.h"
+#include "secrets.h"
 #include "images/background.c"
 #include "images/cloudy.c"
 #include "images/rainy.c"
@@ -24,8 +25,7 @@ void setup() {
     M5.begin();
     Wire.begin();
     Serial.begin(115200);
-    WiFi.begin();
-    //WiFi.begin("ssid","pass");
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
     dateSprite.creatSprite(0,0,200,200);
     weatherSprite.creatSprite(0,0,200,200);
     temperatureSprite.creatSprite(0,0,200,200);
@@ -56,7 +56,7 @@ void loop() {
     {
         Serial.printf("Btn %d was pressed \r\n",BUTTON_EXT_PIN);
         digitalWrite(LED_EXT_PIN,LOW);
-        M5.PowerDown();
+        M5.shutdown();
     }
     M5.update();
 }
@@ -111,9 +111,9 @@ void drawWeather(String infoWeather) {
     String weather = doc["weather"];
     if (weather.indexOf("雨") != -1) {
         if (weather.indexOf("くもり") != -1) {
-            weatherSprite.drawBuff(46,36,108,96,rainyandcloudy);
+            weatherSprite.drawBuff(46,36,109,97,rainyandcloudy);
         } else {
-            weatherSprite.drawBuff(46,36,108,96,rainy);
+            weatherSprite.drawBuff(46,36,109,97,rainy);
         }
     } else if (weather.indexOf("晴") != -1) {
         if (weather.indexOf("くもり") != -1) {
@@ -132,10 +132,10 @@ void drawWeather(String infoWeather) {
    String minTemperature = doc["temperature"]["range"][1]["content"];
    drawTemperature(maxTemperature, minTemperature);
  
-    int rainfallChances[] = {doc["rainfallchance"]["period"][0]["content"].as<String>(), //as<int>()だとなぜか0が返ってくる
-        doc["rainfallchance"]["period"][1]["content"].as<String>(),
-        doc["rainfallchance"]["period"][2]["content"].as<String>(),
-        doc["rainfallchance"]["period"][3]["content"].as<String>()};
+    int rainfallChances[] = {doc["rainfallchance"]["period"][0]["content"].as<String>().toInt(), // as<int>()だとなぜか0が返ってくる
+        doc["rainfallchance"]["period"][1]["content"].as<String>().toInt(),
+        doc["rainfallchance"]["period"][2]["content"].as<String>().toInt(),
+        doc["rainfallchance"]["period"][3]["content"].as<String>().toInt()};
 
     int maxRainfallChance = -255;
     int minRainfallChance = 255;
